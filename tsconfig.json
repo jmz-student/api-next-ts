@@ -18,7 +18,8 @@
         "paths": {
             "@Utils": ["./src/utilities/"],
             "@Controller": ["./src/controllers/"],
-            "@Models": ["./src/models/"]
+            "@Models": ["./src/models/"],
+            "@Components": ["./components/"]
         },
         "experimentalDecorators": true
     },

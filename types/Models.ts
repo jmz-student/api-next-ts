@@ -94,6 +94,6 @@ export interface Lead {
     "seo": Seo,
     "title": string,
     "uid": string,
-    "_id"?:string;
-    "__v"?:number;
+    _id?:string,
+    __v?:number,
 };
