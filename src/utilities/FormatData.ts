@@ -50,7 +50,7 @@ const FormatData = ((): Function => {
         const model = __getModel(query);
         delete query.model;
         return {
-            data: body,
+            data: (typeof body === "string" && body) ? JSON.parse(body) : body,
             model,
             params: { ...query },
             query: __buildQuery(query),
