@@ -1,28 +1,30 @@
 import { NextPage, GetServerSideProps } from 'next';
 import Style from "styled-components";
-import { QR } from 'components/qr';
 import { Client } from '@Utils';
+import { TypeActions } from '../types/Client';
+import { ListModels } from 'components/listModels';
+import { GralObject } from '../types/Utilities';
 
-export const getServerSideProps: GetServerSideProps = async() => {
-    const CLIENT = Client.instance;
-    // 62631be844ee11d37a993a25
-    const READ = await CLIENT.delete("62631be844ee11d37a993a25");
-    console.log(READ)
+export const getServerSideProps: GetServerSideProps = async () => {
+    const data = {
+        modelo: "",
+        action: TypeActions.READ,
+    }
+    const ApiClient = Client;
+    const Data: GralObject = await ApiClient(data);
     return {
         props: {
-            dato: READ,
+           ...Data
         }
     }
 };
-
-
 
 const Title = Style.h1`
     color: red;
     background-color: #C0C0C0;
 `;
 
-const Home: NextPage = (porps) => {
-    return <QR/>
+const Home: NextPage = (props) => {
+    return <ListModels {...props}/>
 }
 export default Home;

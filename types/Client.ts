@@ -1,23 +1,48 @@
-import { Lead } from './Models';
-
-export enum ValidMethods {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT',
-    DELETE = 'DELETE',
-    DEFAULT = "DEFAULT",
+import { AllModel } from './Utilities';
+export enum TypeActions {
+    "CREATE" = "create",
+    "READ" = "read",
+    "UPDATE" = "update",
+    "DELETE" = "delete",
 }
 
-export interface FetchOptions {
-    method: ValidMethods;
-    body?: Lead;
+export interface paramsSendData {
+    modelo?: string;
+    params?: string;
+    action: TypeActions;
+    body?: AllModel;
+};
+
+export interface Actions {
+    create: Function;
+    read: Function;
+    update: Function;
+    delete: Function;
+};
+
+export type CreateResponse = AllModel;
+
+export interface ReadResponse{
+    success: boolean;
+    data: Array<AllModel>;
 }
-export interface DeleteResponse {
-    success : boolean;
-    data: {
+
+export interface UpdateResponse{
+    success: boolean;
+    data:{
+        acknowledged: boolean;
+        modifiedCoun: number;
+        upsertedId: number | null;
+        upsertedCount: number;
+        matchedCount: number;
+    }
+}
+
+export interface DeleteResponse{
+    success: boolean;
+    data:{
         acknowledged: boolean;
         deletedCount: number;
     }
 }
-
-export type FetchResponse = DeleteResponse | Lead;
+export type AllOptions = CreateResponse | ReadResponse | UpdateResponse | DeleteResponse;
