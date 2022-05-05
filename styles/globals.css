@@ -1,13 +1,18 @@
 html,
 body {
-    background-color: #272822;
-    color: rgb(0, 156, 158);
+    background-color: white;
     padding: 0;
      margin: 0;
      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
         Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
-
+select option:disabled{
+    color: rgb(243, 243, 243);
+}
+select:focus > option:checked {
+    background: rgb(199, 210, 254);
+    color:rgb(79 70 229);
+}
 a {
   color: inherit;
   text-decoration: none;
