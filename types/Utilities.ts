@@ -18,7 +18,7 @@ export type SpecialObject = {
 /**
  * Tipo que carga todos los modelos
  */
-export type AllModel = Lead | Agenda | Pokemon | null | {};
+export type AllModel = Lead | Agenda | Pokemon | {};
 
 /**
  * Tipos para la funcion messages

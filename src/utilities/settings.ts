@@ -13,3 +13,11 @@ export const MESSAGES: GralObject = {
     "success": "\x1b[38;5;112m\x1b[48;5;28m [ ✓ ",
     "warning": "\x1b[38;5;226m\x1b[48;5;214m [ ⚠ ",
 };
+
+/** Declaración el tipo online **/
+export const TABLE_CONTENT: {[key:string]: Array<string>}  = {
+    "agenda": ["_id", "name", "email"],
+    "pokemon": ["_id", "name", "img" ],
+    "lead": ["_id","title", "caption"],
+};
+

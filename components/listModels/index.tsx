@@ -1,16 +1,17 @@
 import { ReactElement, useEffect, useState, ChangeEvent } from 'react';
 import Client from '../../src/utilities/Client';
 import { TypeActions } from '../../types/Client';
+import GetTableData from '../../src/utilities/GetTableData'
 import { GralObject } from '../../types/Utilities';
 import { default as logo } from '../../public/svg/logo.svg';
-
+import { TableData } from 'components/tableData';
 
 export const ListModels = (props: GralObject): ReactElement => {
     const [selectedModel, setSelectedModel] = useState<string>("");
     const [dataModels, setDataModels] = useState<GralObject>({})
+    const [tableDat, setTableDat] = useState<Array<GralObject>>([])
     const MODELS: Array<string> = Object.keys(props)
     MODELS.shift();
-    console.log(MODELS, 'list')
 
     useEffect(() => {
         let data = {
@@ -20,13 +21,13 @@ export const ListModels = (props: GralObject): ReactElement => {
         const Request = async() => {
             const Data: GralObject = await Client(data);
             setDataModels(Data);
-            console.log(Data, 'data')
-            return Data;
+            let dataa = Data.data ?? []
+            const tableDatas = GetTableData(dataa, selectedModel);
+            setTableDat(tableDatas)
         }
-        Request()
+        Request();
 
     },[selectedModel])
-
 
     const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault()
@@ -112,7 +113,8 @@ export const ListModels = (props: GralObject): ReactElement => {
                                         <option key={`key-${model}`} value={model} className="capitalize bg-white text-indigo-600 font-medium">{model}</option>
                                     ))}
                                 </select>
-                            </div>
+                              </div>
+                              <TableData tableDat={tableDat} />
                         </div>
                     </div>
                 </div>
