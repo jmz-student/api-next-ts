@@ -3,7 +3,6 @@ import Client from '../../src/utilities/Client';
 import { TypeActions } from '../../types/Client';
 import GetTableData from '../../src/utilities/GetTableData'
 import { GralObject } from '../../types/Utilities';
-import { default as logo } from '../../public/svg/logo.svg';
 import { TableData } from 'components/tableData';
 
 export const ListModels = (props: GralObject): ReactElement => {
@@ -34,6 +33,7 @@ export const ListModels = (props: GralObject): ReactElement => {
         const valueOption = e.target.value
         setSelectedModel(valueOption)
     }
+    console.log("selectedModel", selectedModel);
   return (
     <>
         <div className="antialiased overflow-x-hidden">
@@ -98,7 +98,7 @@ export const ListModels = (props: GralObject): ReactElement => {
                     </div>
                 </div>
             </header>
-            <section className="w-full justify-center items-center relative  overflow-x-hidden lg:pt-40 lg:pb-40 xl:pt-40 xl:pb-64">
+            <section id="home" className="w-full justify-center items-center relative overflow-x-hidden lg:pt-30 lg:pb-40 xl:pt-40 xl:pb-25">
                 <div className="container max-w-6xl mx-auto h-full lg:flex-row justify-between items-center -mt-32 px-8 xl:px-0">
                     <div className="flex flex-col items-center lg:items-start w-full pt-48 lg:pt-20 xl:pt-40 text-center lg:text-left z-30">
                         <div className="">
@@ -114,11 +114,15 @@ export const ListModels = (props: GralObject): ReactElement => {
                                     ))}
                                 </select>
                               </div>
-                              <TableData tableDat={tableDat} />
                         </div>
                     </div>
                 </div>
             </section>
+            {
+                tableDat && tableDat.length > 0 && (
+                    <TableData tableDat={tableDat} selectedModel={selectedModel} />
+                )
+            }
         </div>
     </>
   )

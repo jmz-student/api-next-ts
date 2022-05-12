@@ -1,61 +1,65 @@
 import React, { ReactElement } from 'react'
 import { TableDynamic } from 'types/table'
 
-export const TableData = ({ tableDat = [] }: { tableDat: Array<TableDynamic> }): ReactElement => {
+export const TableData = ({ tableDat = [], selectedModel = "" }:{ tableDat: Array<TableDynamic>, selectedModel:string }): ReactElement => {
     const AUX = tableDat[0] || {};
-    const KEY:Array<string> = Object.keys(AUX);
+    const KEY: Array<string> = Object.keys(AUX);
     return (
-        <div className="flex flex-col">
-            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="py-4 inline-block min-w-full sm:px-6 lg:px-8">
-                    <div className="overflow-hidden">
-                        <table className="table-auto">
-                            <thead className="border-b bg-gray-800">
-                                <tr>
-                                    {
-                                        KEY.map((title): ReactElement => (
-                                            <th
-                                                key={`${title}-head`}
-                                                className="text-sm font-medium text-white px-6 py-4"
-                                            >
-                                                {title}
-                                            </th>))
-                                    }
-                                    <th
-                                        key="action-head"
-                                        className="text-sm font-medium text-white px-6 py-4"
-                                    >
-                                    Actions
+
+        <section id="table" className="w-full relative py-8 md:py-16 lg:py-24 xl:py-30 border-t border-gray-200 px-8 xl:px-0">
+            <div className="container max-w-6xl mx-auto h-full flex flex-col justify-between items-center">
+                <h3 className="font-black  mt-2 sm:mt-0 px-5 sm:px-0 sm:text-3xl max-w-2xl leading-tight text-gray-900 text-center">Información del modelo <span className="text-indigo-600">{selectedModel}</span></h3>
+                <div className="mt-10">
+                    <table className="table-auto">
+                        <thead className="border-b bg-gray-800">
+                            <tr>
+                                {
+                                    KEY.map((title): ReactElement => (
+                                        <th
+                                            key={`${title}-head`}
+                                            className="text-sm font-medium text-white px-6 py-4"
+                                        >
+                                            {title}
                                         </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                    {
-                                        tableDat.map((data): ReactElement => {
-                                            const ITEMS = Object.values(data);
-                                            return (
-                                                <tr key={`${data}._id-tr`}  className="bg-white border-b">
-                                                    {
-                                                        ITEMS.map((value): ReactElement => (
-                                                            <td
-                                                                key={`${data}._id-td`}
-                                                                className='text-sm font-medium text-red px-6 py-4'
-                                                            >
-                                                                {value}
-                                                            </td>
-                                                        ))
-                                                    }
-                                                    <td>Action</td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                            </tbody>
-                        </table>
-                    </div>
+                                    ))
+                                }
+                                <th
+                                    key="action-head"
+                                    className="text-sm font-medium text-white px-6 py-4"
+                                >
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                tableDat.map((data): ReactElement => {
+                                    const ITEMS = Object.values(data);
+                                    return (
+                                        <tr key={`${data}._id-tr`} className="bg-white border-b text-center">
+                                            {
+                                                ITEMS.map((value): ReactElement => (
+                                                    <td
+                                                        key={`${data}._id-td`}
+                                                        className='text-sm px-6 py-4'
+                                                    >
+                                                        {value}
+                                                    </td>
+                                                ))
+                                            }
+                                            <td>Action</td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
+        </section>
+
+
+
     )
 }
 
