@@ -1,9 +1,40 @@
-import React, { ReactElement } from 'react'
-import { TableDynamic } from 'types/table'
+import React, { ReactElement, useState } from 'react';
+import { paramsSendData, Actions, AllOptions, TypeActions } from "../../types/Client";
+import { TableDynamic } from 'types/table';
+import { GralObject, AllModel } from '../../types/Utilities';
+import Client from '../../src/utilities/Client';
 
-export const TableData = ({ tableDat = [], selectedModel = "" }:{ tableDat: Array<TableDynamic>, selectedModel:string }): ReactElement => {
-    const AUX = tableDat[0] || {};
+export const TableData = ({ tableDat = [], selectedModel = "" }: { tableDat: Array<TableDynamic>, selectedModel: string }): ReactElement => {
+    const [tableData, setTableData] = useState(tableDat);
+    const AUX = tableData[0] || {};
     const KEY: Array<string> = Object.keys(AUX);
+    const BorrarDato = async (id: string | undefined, index: number): Promise<void> => {
+        const settings: paramsSendData = {
+            modelo: selectedModel,
+            params: `/id/${id}`,
+            action: TypeActions.DELETE,
+        }
+        const RESPONSE: GralObject = await Client(settings);
+        delete tableData[index]
+        const DATA_FILTER = tableData.filter(Boolean);
+        setTableData(DATA_FILTER);
+    };
+
+    const ActualizarDato = async (data: AllModel, index: number): Promise<void> => {
+        const settings: paramsSendData = {
+            modelo: selectedModel,
+            params: `/id/${data._id}`,
+            action: TypeActions.UPDATE,
+            body: {
+                ...data,
+                name: Math.random().toString(36).substr(2),
+            }
+        }
+        const RESPONSE: GralObject = await Client(settings);
+        /
+        console.log(settings);
+    }
+
     return (
 
         <section id="table" className="w-full relative py-8 md:py-16 lg:py-24 xl:py-30 border-t border-gray-200 px-8 xl:px-0">
@@ -33,21 +64,32 @@ export const TableData = ({ tableDat = [], selectedModel = "" }:{ tableDat: Arra
                         </thead>
                         <tbody>
                             {
-                                tableDat.map((data): ReactElement => {
+                                tableData.map((data, indexUp): ReactElement => {
                                     const ITEMS = Object.values(data);
                                     return (
-                                        <tr key={`${data}._id-tr`} className="bg-white border-b text-center">
+                                        <tr key={`${data._id}-tr`} className="bg-white border-b text-center">
                                             {
-                                                ITEMS.map((value): ReactElement => (
+                                                ITEMS.map((value, index): ReactElement => (
                                                     <td
-                                                        key={`${data}._id-td`}
+                                                        key={`${data._id}-td_${index}`}
                                                         className='text-sm px-6 py-4'
                                                     >
                                                         {value}
                                                     </td>
                                                 ))
                                             }
-                                            <td>Action</td>
+                                            <td>
+                                                <button
+                                                    onClick={ () => BorrarDato(data._id, indexUp) }
+                                                >
+                                                    Borrar
+                                                </button>
+                                                <button
+                                                    onClick={ () => ActualizarDato(data, indexUp) }
+                                                >
+                                                    Actualizar
+                                                </button>
+                                            </td>
                                         </tr>
                                     )
                                 })
