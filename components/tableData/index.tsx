@@ -31,7 +31,7 @@ export const TableData = ({ tableDat = [], selectedModel = "" }: { tableDat: Arr
             }
         }
         const RESPONSE: GralObject = await Client(settings);
-        /
+        // Falta actualizar la tabla
         console.log(settings);
     }
 
