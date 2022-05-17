@@ -3,7 +3,7 @@ import Client from '../../src/utilities/Client';
 import { TypeActions } from '../../types/Client';
 import GetTableData from '../../src/utilities/GetTableData'
 import { GralObject } from '../../types/Utilities';
-import { TableData } from 'components/tableData';
+import TableData from 'components/tableData';
 
 export const ListModels = (props: GralObject): ReactElement => {
     const [selectedModel, setSelectedModel] = useState<string>("");
@@ -120,7 +120,7 @@ export const ListModels = (props: GralObject): ReactElement => {
             </section>
             {
                 tableDat && tableDat.length > 0 && (
-                    <TableData tableDat={tableDat} selectedModel={selectedModel} />
+                    <TableData tableData={tableDat} selectedModel={selectedModel} />
                 )
             }
         </div>

@@ -13,7 +13,7 @@ export const Modal = ({ show = false, body = {} }: { show: boolean, body: any })
     const cancelButtonRef = useRef(null)
 
     return (
-        <Transition.Root show={open} as={Fragment}>
+        <Transition.Root show={show} as={Fragment}>
             <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
                 <Transition.Child
                     as={Fragment}
