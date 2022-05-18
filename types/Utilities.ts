@@ -5,7 +5,7 @@ import { Agenda, Pokemon, Lead } from "./Models";
  * Configuracion general de objetos de respuesta
  */
 export type GralObject = {
-    [key: string]: string;
+    [key: string]: string | number;
 };
 
 /**

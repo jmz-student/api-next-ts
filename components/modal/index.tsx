@@ -1,20 +1,23 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { TrashIcon } from '@heroicons/react/outline'
-import React, { ReactElement, useState, Fragment, useRef, } from 'react';
-import { GralObject } from '../../types/Utilities';
+import { TrashIcon, PencilIcon } from '@heroicons/react/outline'
+import React, { ReactElement, Fragment, useRef, FC, useState, useEffect } from "react";
+import { PropsAllModal } from '../../types/table';
 
 
-export const Modal = ({ show = false, body = {} }: { show: boolean, body: any }): ReactElement => {
-    console.log(body, "body");
-    const COLOR = body.type === "delete" ? "red" : "sky";
+const Modal: FC<PropsAllModal> = (props): ReactElement => {
+    const { title = "", info = "", textButton = "", show = false, type = "", callBack = () => { } } = props;
+    const cancelButtonRef = useRef(null);
+    const COLOR = type === "delete" ? "red" : "sky";
+    const TypeIcon = type === "delete" ? TrashIcon : PencilIcon;
+    const [openModal, setOpenModal] = useState(show);
+    useEffect(() => {
+        setOpenModal(show);
+    });
 
-    const [open, setOpen] = useState(true)
-
-    const cancelButtonRef = useRef(null)
 
     return (
-        <Transition.Root show={show} as={Fragment}>
-            <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+        <Transition.Root show={openModal} as={Fragment}>
+            <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={() => { setOpenModal(false) }}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -46,15 +49,15 @@ export const Modal = ({ show = false, body = {} }: { show: boolean, body: any })
                                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                     <div className="sm:flex items-center">
                                         <div className={`mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-${COLOR}-100 sm:mx-0 sm:h-10 sm:w-10`}>
-                                            <TrashIcon className={`h-6 w-6 text-${COLOR}-600`} aria-hidden="true" />
+                                            <TypeIcon className={`h-6 w-6 text-${COLOR}-600`} aria-hidden="true" />
                                         </div>
                                         <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                             <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                                                {body.title}
+                                                {title}
                                             </Dialog.Title>
                                             <div className="mt-2">
                                                 <p className="text-sm text-gray-500">
-                                                    {body.info}
+                                                    {info}
                                                 </p>
                                             </div>
                                         </div>
@@ -64,17 +67,20 @@ export const Modal = ({ show = false, body = {} }: { show: boolean, body: any })
                                     <button
                                         type="button"
                                         className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-${COLOR}-600 text-base font-medium text-white hover:bg-${COLOR}-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${COLOR}-500 sm:ml-3 sm:w-auto sm:text-sm`}
-                                        onClick={() => setOpen(false)}
+                                        onClick={() => {
+                                            callBack();
+                                            setOpenModal(false);
+                                        }}
                                     >
-                                        {body.textButton}
+                                        {textButton}
                                     </button>
                                     <button
                                         type="button"
                                         className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={() => setOpen(false)}
+                                        onClick={() => { setOpenModal(false); }}
                                         ref={cancelButtonRef}
                                     >
-                                        Cancel
+                                        Cancelar
                                     </button>
                                 </div>
                             </Dialog.Panel>
@@ -83,6 +89,7 @@ export const Modal = ({ show = false, body = {} }: { show: boolean, body: any })
                 </div>
             </Dialog>
         </Transition.Root>
-    )
-}
+    );
+};
 
+export default Modal;

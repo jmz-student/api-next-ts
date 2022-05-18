@@ -38,10 +38,7 @@ export const TableData = ({ tableDat = [], selectedModel = "" }: { tableDat: Arr
             // delete tableData[index]
             // const DATA_FILTER = tableData.filter(Boolean);
             // setTableData(DATA_FILTER);
-            // setShowModal((prevState) => ({
-            // ...prevState,
-            // delete: false,
-            // }));
+
             };
 
             const ActualizarDato = async (data: AllModel, index: number): Promise<void> => {

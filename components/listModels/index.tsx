@@ -22,6 +22,7 @@ export const ListModels = (props: GralObject): ReactElement => {
             setDataModels(Data);
             let dataa = Data.data ?? []
             const tableDatas = GetTableData(dataa, selectedModel);
+            console.log(tableDatas)
             setTableDat(tableDatas)
         }
         Request();
@@ -33,7 +34,6 @@ export const ListModels = (props: GralObject): ReactElement => {
         const valueOption = e.target.value
         setSelectedModel(valueOption)
     }
-    console.log("selectedModel", selectedModel);
   return (
     <>
         <div className="antialiased overflow-x-hidden">
