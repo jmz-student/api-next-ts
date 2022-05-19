@@ -4,7 +4,6 @@ import { GralObject, AllModel } from '../../types/Utilities';
 import { TableDynamic } from 'types/table';
 import { PropsModal } from '../../types/table';
 import GetTableData from '../../src/utilities/GetTableData';
-import TableData from 'components/tableData';
 
 type itemsDeleteData = {
     id: string;
@@ -19,6 +18,14 @@ type itemsUpdate = {
 
 
 const LogicData = ((): {[key: string]: Function} => {
+
+    const __refreshData = async (selectedModel: string): Promise<any> => {
+        const Data: GralObject = await Client({
+            modelo: selectedModel,
+            action: TypeActions.READ,
+        });
+        return GetTableData(Data.data, selectedModel);
+    };
 
     const deleteData = async (selectedModel: string, config: itemsDeleteData): Promise<Array<TableDynamic>> => {
         const settings: paramsSendData = {
@@ -44,8 +51,7 @@ const LogicData = ((): {[key: string]: Function} => {
             },
         };
         await Client(settings);
-
-        return config.tableData;
+        return __refreshData(selectedModel);
     };
 
 
