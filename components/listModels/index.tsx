@@ -22,7 +22,6 @@ export const ListModels = (props: GralObject): ReactElement => {
             setDataModels(Data);
             let dataa = Data.data ?? []
             const tableDatas = GetTableData(dataa, selectedModel);
-            console.log(tableDatas)
             setTableDat(tableDatas)
         }
         Request();

@@ -14,6 +14,7 @@ const Client = ((): Function => {
             __OPTIONS.body = JSON.stringify(__body);
         },
         read(): void {
+            delete __OPTIONS.body;
             __OPTIONS.method = "GET";
         },
         update(): void {
@@ -27,7 +28,6 @@ const Client = ((): Function => {
 
 
     const __sendData = async (): Promise<AllOptions> => {
-        console.log(__URL_API)
         const FETCH = await fetch(`${__URL_API}${__modelo}${__params}`, __OPTIONS);
         const RESPONSE = await FETCH.json();
         return RESPONSE;

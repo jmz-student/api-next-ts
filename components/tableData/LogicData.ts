@@ -3,7 +3,8 @@ import { paramsSendData, TypeActions } from "../../types/Client";
 import { GralObject, AllModel } from '../../types/Utilities';
 import { TableDynamic } from 'types/table';
 import { PropsModal } from '../../types/table';
-import TableData from './index';
+import GetTableData from '../../src/utilities/GetTableData';
+import TableData from 'components/tableData';
 
 type itemsDeleteData = {
     id: string;
@@ -26,12 +27,13 @@ const LogicData = ((): {[key: string]: Function} => {
                 action: TypeActions.DELETE,
         }
         const RESPONSE: GralObject = await Client(settings);
+
         delete config.tableData[config.index]
         const DATA_FILTER = config.tableData.filter(Boolean);
         return DATA_FILTER;
     }
 
-    const updateData = async (selectedModel: string, config: itemsUpdate) => {
+    const updateData = async (selectedModel: string, config: itemsUpdate): Promise<any> => {
         const settings: paramsSendData = {
             modelo: selectedModel,
             params: `/id/${config.body._id}`,
@@ -39,9 +41,11 @@ const LogicData = ((): {[key: string]: Function} => {
             body: {
                 ...config.body,
                 name: `${config.body.name}_${Math.random().toString(36).substr(2)}`,
-            }
-        }
-        console.log(settings);
+            },
+        };
+        await Client(settings);
+
+        return config.tableData;
     };
 
 

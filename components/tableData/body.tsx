@@ -32,7 +32,7 @@ const Body: FC<PropsTableBody> = ({ bodyData, selectedModel }) => {
                 {...PROPS}
                 callBack={() => {
                     const ACTION: Function = LogicData[`${action}Data`] || function () { };
-                    if (action === "delete") config.TableData = TableData;
+                    config.tableData = dataState;
                     ACTION(selectedModel, config).then((response: any) => {
                         setData(response);
                     });

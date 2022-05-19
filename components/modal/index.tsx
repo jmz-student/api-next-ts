@@ -11,7 +11,7 @@ const Modal: FC<PropsAllModal> = (props): ReactElement => {
     const TypeIcon = type === "delete" ? TrashIcon : PencilIcon;
     const [openModal, setOpenModal] = useState(show);
     useEffect(() => {
-        setOpenModal(show);
+        setOpenModal(openModal);
     });
 
 
@@ -77,7 +77,7 @@ const Modal: FC<PropsAllModal> = (props): ReactElement => {
                                     <button
                                         type="button"
                                         className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={() => { setOpenModal(false); }}
+                                        onClick={() => { setOpenModal(false); console.log(openModal) }}
                                         ref={cancelButtonRef}
                                     >
                                         Cancelar
