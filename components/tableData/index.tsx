@@ -7,6 +7,7 @@ import Body from "./body";
 import { TableDynamic } from '../../types/table';
 import Logic from "./Logic";
 
+
 type PropsTable = {
     tableData: Array<TableDynamic>,
     selectedModel: string
@@ -28,6 +29,13 @@ const TableData: FC<PropsTable> = ({ tableData, selectedModel }) => {
                 </div>
             </div>
             <div id="containerModal" />
+            <form>
+            <label>
+                Name:
+                <input type="text" name="name" />
+            </label>
+            <input type="submit" value="Submit" />
+            </form>
         </section>
     );
 };

@@ -6,7 +6,7 @@ import Button from "../button";
 import LogicData from "./LogicData"
 import { GralObject } from '../../types/Utilities';
 import TableData from './index';
-
+import DynamicForm from '../dynamicForm/index';
 type PropsTableBody = {
     bodyData: Array<TableDynamic>,
     selectedModel: string,
@@ -23,14 +23,16 @@ type PropsTableBody = {
 //     },
 const Body: FC<PropsTableBody> = ({ bodyData, selectedModel }) => {
     const [dataState, setData] = useState(bodyData);
+    const [itemTable, setItemTable] = useState({});
 
-    const getActions = (action: string, config: GralObject) => {
+    const getActions = async (action: string, config: GralObject) => {
         const Modal = dynamic(() => import("../../components/modal"));
-        const PROPS = LogicData.getPropsModals(action, selectedModel);
+        const PROPS = await LogicData.getPropsModals(action, selectedModel, config);
+
         RenderComponent(
             <Modal
                 {...PROPS}
-                callBack={() => {
+                callBack={ () => {
                     const ACTION: Function = LogicData[`${action}Data`] || function () { };
                     config.tableData = dataState;
                     ACTION(selectedModel, config).then((response: any) => {

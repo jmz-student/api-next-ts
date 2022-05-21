@@ -2,10 +2,13 @@ import { Dialog, Transition } from '@headlessui/react'
 import { TrashIcon, PencilIcon } from '@heroicons/react/outline'
 import React, { ReactElement, Fragment, useRef, FC, useState, useEffect } from "react";
 import { PropsAllModal } from '../../types/table';
+import dynamic from "next/dynamic";
 
 
 const Modal: FC<PropsAllModal> = (props): ReactElement => {
-    const { title = "", info = "", textButton = "", show = false, type = "", callBack = () => { } } = props;
+    const { title = "", info = "", textButton = "", show = false, type = "", callBack = () => { }, params } = props;
+    console.log("Params", params);
+    console.log(type);
     const cancelButtonRef = useRef(null);
     const COLOR = type === "delete" ? "red" : "sky";
     const TypeIcon = type === "delete" ? TrashIcon : PencilIcon;
@@ -15,6 +18,7 @@ const Modal: FC<PropsAllModal> = (props): ReactElement => {
     });
 
 
+const Component = dynamic(() => import('components/dynamicForm'));
     return (
         <Transition.Root show={openModal} as={Fragment}>
             <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={() => { setOpenModal(false) }}>
@@ -60,6 +64,9 @@ const Modal: FC<PropsAllModal> = (props): ReactElement => {
                                                     {info}
                                                 </p>
                                             </div>
+                                            {
+                                                type === "update" && <Component fields={params}/>
+                                            }
                                         </div>
                                     </div>
                                 </div>

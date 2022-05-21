@@ -33,29 +33,36 @@ const LogicData = ((): {[key: string]: Function} => {
                 params: `/id/${config.id}`,
                 action: TypeActions.DELETE,
         }
-        const RESPONSE: GralObject = await Client(settings);
-
-        delete config.tableData[config.index]
-        const DATA_FILTER = config.tableData.filter(Boolean);
-        return DATA_FILTER;
+        await Client(settings);
+        return __refreshData(selectedModel);
     }
 
     const updateData = async (selectedModel: string, config: itemsUpdate): Promise<any> => {
+        const FIND_DATA = findData(selectedModel, config);
         const settings: paramsSendData = {
             modelo: selectedModel,
             params: `/id/${config.body._id}`,
             action: TypeActions.UPDATE,
             body: {
+                ...FIND_DATA,
                 ...config.body,
                 name: `${config.body.name}_${Math.random().toString(36).substr(2)}`,
             },
         };
-        await Client(settings);
         return __refreshData(selectedModel);
+
     };
 
+    const findData = async (selectedModel:string, config: itemsUpdate): Promise<any> => {
+        const Data: GralObject = await Client({
+            modelo: selectedModel,
+            action: TypeActions.READ,
+            params: `/id/${config.body._id}`
+        });
+        return Data.data[0];
+    }
 
-    const getPropsModals = (type: string, selectedModel: string): PropsModal  => {
+    const getPropsModals = async (type: string, selectedModel: string, config: any): Promise<PropsModal>  => {
         const TEXT_ACTIONS = type === "delete" ? "Eliminar" : "Actualizar";
         return {
             title: `${TEXT_ACTIONS} registro`,
@@ -64,14 +71,11 @@ const LogicData = ((): {[key: string]: Function} => {
             show: true,
             action: "",
             type,
-            params: {
-                id: "",
-                index: 0,
-            }
+            params: type === "update" ? await findData(selectedModel, config)  : { id: "", index: 0 }
         };
     };
 
-    return { deleteData, getPropsModals, updateData };
+    return { deleteData, getPropsModals, updateData, findData };
 })();
 
 export default LogicData;
